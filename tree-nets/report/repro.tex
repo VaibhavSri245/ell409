@@ -1,0 +1,19 @@
+\section{Code and reproduction}
+The repository (\repo) is organised as follows; the README gives the exact commands.
+\begin{center}\small
+\begin{tabular}{ll}
+\toprule
+\texttt{treenet/data.py} & download format, fixed splits, label noise \\
+\texttt{treenet/features.py} & the three trunks and feature caching \\
+\texttt{treenet/tree.py} & \texttt{SoftTree}, losses, balance penalty, hard routing \\
+\texttt{treenet/train.py} & training loop and evaluation \\
+\texttt{experiments/e1\_overfit.py} & E1 (Table~\ref{tab:e1}) \\
+\texttt{experiments/e2\_double\_descent.py}, \texttt{run\_e2.sh} & E2 sweeps (Section~\ref{sec:dd}) \\
+\texttt{experiments/e3\_receptive\_fields.py} & E3 (Section~\ref{sec:rf}) \\
+\texttt{experiments/e4\_compress.py} & E4 (Section~\ref{sec:e4}) \\
+\texttt{experiments/e5\_noise.py} & E5 (Section~\ref{sec:e5}) \\
+\texttt{experiments/make\_figures.py}, \texttt{make\_tables.py} & every figure and table in this report \\
+\bottomrule
+\end{tabular}
+\end{center}
+Raw results (one JSON line per trained model, with training curves) are in \texttt{results/}. Total compute for everything in this report was about 6 hours on 2 CPU cores.

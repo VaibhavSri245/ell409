@@ -1,0 +1,104 @@
+{
+ "train_acc": 0.8660444444444444,
+ "test_acc": 0.4803,
+ "routers": [
+  {
+   "node": 0,
+   "left_top": [
+    "automobile",
+    "truck",
+    "ship"
+   ],
+   "right_top": [
+    "airplane",
+    "horse",
+    "bird"
+   ],
+   "radius": 0.7390264251895435
+  },
+  {
+   "node": 1,
+   "left_top": [
+    "frog",
+    "automobile",
+    "dog"
+   ],
+   "right_top": [
+    "ship",
+    "truck",
+    "automobile"
+   ],
+   "radius": 0.7598043923886633
+  },
+  {
+   "node": 2,
+   "left_top": [
+    "deer",
+    "dog",
+    "bird"
+   ],
+   "right_top": [
+    "airplane",
+    "horse",
+    "bird"
+   ],
+   "radius": 0.7438703353861155
+  },
+  {
+   "node": 3,
+   "left_top": [
+    "automobile",
+    "frog",
+    "cat"
+   ],
+   "right_top": [
+    "frog",
+    "deer",
+    "bird"
+   ],
+   "radius": 0.7467801688421453
+  },
+  {
+   "node": 4,
+   "left_top": [
+    "truck",
+    "horse",
+    "airplane"
+   ],
+   "right_top": [
+    "ship",
+    "truck",
+    "automobile"
+   ],
+   "radius": 0.7912976371583605
+  },
+  {
+   "node": 5,
+   "left_top": [
+    "deer",
+    "horse",
+    "cat"
+   ],
+   "right_top": [
+    "dog",
+    "bird",
+    "deer"
+   ],
+   "radius": 0.7295029950958603
+  },
+  {
+   "node": 6,
+   "left_top": [
+    "airplane",
+    "bird",
+    "truck"
+   ],
+   "right_top": [
+    "horse",
+    "cat",
+    "bird"
+   ],
+   "radius": 0.7560855976967086
+  }
+ ]
+}

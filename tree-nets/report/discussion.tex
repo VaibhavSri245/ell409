@@ -1,0 +1,27 @@
+\section{Interpretation}
+\label{sec:interp}
+\paragraph{Where the capacity goes.} On these datasets a tree of small networks can always be made to fit every training label, including deliberately wrong ones, and doing so is cheap: ten trees of 0.3M to 1.3M parameters reached 100\% training accuracy in at most 125 epochs on a CPU. What the tree does with that capacity depends on the regime. Below the interpolation point the tree cannot fit everything and test error follows the classical U-curve. At the interpolation point the tree has just enough parameters to fit all $nK$ targets, so the fit is forced through every mislabelled or atypical image with large weights and sharp bends, and test error peaks. Past it, many functions fit the data, and training from a small initialisation tends to reach a smoother one, so test error falls again. This is the standard account of double descent \cite{belkin2019, nakkiran2019}, and the tree follows it closely. With the squared loss, the peak sits at $P\approx nK$ whether the parameters are added by widening the leaves or by adding leaves (Figure~\ref{fig:surface}). For trees, the second descent here is a property of total size and not an artefact of switching from one complexity axis to another, which is how Curth et al.\ \cite{curth2023} explained the double descent of random forests and boosting.
+
+\paragraph{The loss sets the threshold.} With cross-entropy the peak is at about 3k parameters instead of 20k (Figure~\ref{fig:ce}). Cross-entropy only needs the right class to have the highest score, which takes far fewer parameters than reproducing $nK$ one-hot numbers. ``Interpolation'' has to be defined by the loss being minimised, not by training accuracy: the squared-loss trees reach 0\% training error at 8k to 10k parameters, well before the peak at 20k.
+
+\paragraph{Routing is not classification.} A tree is often pictured as splitting classes into ever finer groups. The receptive-field analysis shows that this happens only partly on CIFAR-10 and not at all on Cats vs Dogs, where the routers sort images by background, colour and framing and every leaf is a cat-versus-dog expert for one kind of photograph. Routers follow the largest variations in their input features, and the class is only one of them. Which variations a router can see is fixed by the trunk: a task-trained CNN gives object-centred, part-like routers; a frozen ImageNet ResNet gives scene-level ones.
+
+\paragraph{The tree is much larger than it needs to be.} On frozen features, the 1.2M-parameter tree and a linear classifier with 125 to 600 times fewer parameters have the same test accuracy, and a distilled linear classifier is slightly better. The extra parameters are spent on memorising the training set, which the double-descent experiments show is harmless only once the tree is far past the interpolation point. For deployment, hard routing plus magnitude pruning gives a tree that runs 2.6k to 25k weights per image. A larger gain from a tree would come from conditional computation in the trunk itself, which these experiments do not test.
+
+\section{Limitations}
+\begin{itemize}
+\item The class notes defining the course's tree network were not available to us; the model here is the standard soft decision tree / hierarchical mixture of experts with neural nodes, and the hard tree is its zero-temperature limit.
+\item Everything ran on 2 CPU cores. The double-descent sweeps therefore use 2{,}000 training images and 64 PCA dimensions of the ResNet features, 1 to 3 seeds per point, and a fixed budget of 4{,}000 full-batch steps. Near the interpolation point training converges slowly, so part of the peak height can come from incomplete optimisation; the training-loss panels show how close each run got.
+\item The trunks are frozen. Training trunk and tree together, as in Adaptive Neural Trees \cite{tanno2019}, could change both accuracy and routing.
+\item Input-gradient saliency is a noisy explanation method \cite{adebayo2018}; we use it only for coarse statistics (how central, how spread) and for comparisons between trunks, and back it with prototypes and class statistics.
+\end{itemize}
+
+\section{Future directions}
+\begin{itemize}
+\item \emph{Train the trunk with the tree.} Put a small convolutional block on each edge (Adaptive Neural Trees) so that each branch learns its own features, and test whether the receptive fields then shrink with depth.
+\item \emph{Use routing to find shortcuts.} The Cats vs Dogs routers isolate backgrounds and settings. Evaluating each leaf on images with swapped backgrounds would measure how much each expert depends on context.
+\item \emph{Effective parameters for trees.} Measure the generalised effective number of parameters of Curth et al.\ for neural trees and check whether the 2-D surface folds into a single U-curve when plotted against it.
+\item \emph{Grow and prune with validation.} Replace the fixed depth with greedy growth (split or deepen a leaf only if validation loss drops) and the greedy collapse of E4, giving a tree whose size is chosen by the data.
+\item \emph{Complexity penalties at the nodes.} Add a VC-dimension-based penalty \cite{jayadeva2017} to each router and leaf, and compare the resulting sizes with magnitude pruning.
+\item \emph{Regression.} The squared-loss tree used in E2 is already a regression tree on one-hot targets; running it on real regression data would test whether the same double-descent surface appears.
+\end{itemize}

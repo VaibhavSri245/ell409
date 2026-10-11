@@ -1,0 +1,90 @@
+{
+ "train_acc": 0.987789799072643,
+ "test_acc": 0.6543333333333333,
+ "routers": [
+  {
+   "node": 0,
+   "left_top": [
+    "dog",
+    "cat"
+   ],
+   "right_top": [
+    "cat",
+    "dog"
+   ],
+   "radius": 0.7398289403875129
+  },
+  {
+   "node": 1,
+   "left_top": [
+    "dog",
+    "cat"
+   ],
+   "right_top": [
+    "dog",
+    "cat"
+   ],
+   "radius": 0.7494311375366176
+  },
+  {
+   "node": 2,
+   "left_top": [
+    "cat",
+    "dog"
+   ],
+   "right_top": [
+    "cat",
+    "dog"
+   ],
+   "radius": 0.7519871407130003
+  },
+  {
+   "node": 3,
+   "left_top": [
+    "dog",
+    "cat"
+   ],
+   "right_top": [
+    "dog",
+    "cat"
+   ],
+   "radius": 0.749977027205186
+  },
+  {
+   "node": 4,
+   "left_top": [
+    "dog",
+    "cat"
+   ],
+   "right_top": [
+    "cat",
+    "dog"
+   ],
+   "radius": 0.7668241269953995
+  },
+  {
+   "node": 5,
+   "left_top": [
+    "cat",
+    "dog"
+   ],
+   "right_top": [
+    "dog",
+    "cat"
+   ],
+   "radius": 0.7551185609640145
+  },
+  {
+   "node": 6,
+   "left_top": [
+    "cat",
+    "dog"
+   ],
+   "right_top": [
+    "dog",
+    "cat"
+   ],
+   "radius": 0.7502912234841438
+  }
+ ]
+}

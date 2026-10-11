@@ -1,0 +1,29 @@
+\begin{tikzpicture}[
+  font=\footnotesize,
+  trunk/.style={draw, rounded corners=2pt, fill=gray!12, minimum width=2.1cm, minimum height=0.8cm, align=center},
+  router/.style={draw, circle, fill=blue!10, minimum size=0.75cm, inner sep=0pt},
+  leaf/.style={draw, rounded corners=2pt, fill=orange!15, minimum width=0.9cm, minimum height=0.65cm, inner sep=1pt},
+  arr/.style={-{Stealth[length=4pt]}, thick},
+  lab/.style={font=\scriptsize, inner sep=1pt}]
+  \node[trunk] (img) at (0,0) {image $x$};
+  \node[trunk] (trk) at (0,-1.3) {frozen trunk\\ $\phi(x)$};
+  \draw[arr] (img) -- (trk);
+  \node[router] (r0) at (5,0.2) {$r_0$};
+  \node[router] (r1) at (3.2,-1.1) {$r_1$};
+  \node[router] (r2) at (6.8,-1.1) {$r_2$};
+  \node[leaf] (l0) at (2.3,-2.4) {$f_0$};
+  \node[leaf] (l1) at (4.1,-2.4) {$f_1$};
+  \node[leaf] (l2) at (5.9,-2.4) {$f_2$};
+  \node[leaf] (l3) at (7.7,-2.4) {$f_3$};
+  \draw[arr] (r0) -- node[lab, above left] {$p_0$} (r1);
+  \draw[arr] (r0) -- node[lab, above right] {$1-p_0$} (r2);
+  \draw[arr] (r1) -- node[lab, left] {$p_1$} (l0);
+  \draw[arr] (r1) -- node[lab, right] {$1-p_1$} (l1);
+  \draw[arr] (r2) -- node[lab, left] {$p_2$} (l2);
+  \draw[arr] (r2) -- node[lab, right] {$1-p_2$} (l3);
+  \draw[arr, dashed, gray] (trk.east) to[out=0, in=180] node[lab, below, black, pos=0.55] {$z_r$} (r0.west);
+  \draw[arr, dashed, gray] (trk.south) |- node[lab, below, black, pos=0.75] {$z_\ell$} (2.3,-3.2) -- (l0.south);
+  \node[align=left, lab, anchor=west] at (8.6,0.2) {router $r_j$: MLP $z_r \to h_r \to 1$,\\ $p_j = \sigma(g_j(z_r)/T)$};
+  \node[align=left, lab, anchor=west] at (8.6,-2.4) {leaf $f_\ell$: MLP $z_\ell \to h \to K$};
+  \node[align=left, lab, anchor=west] at (8.6,-1.1) {$\mu_\ell(x)$: product of $p_j$ or $1-p_j$\\ along the path to leaf $\ell$};
+\end{tikzpicture}

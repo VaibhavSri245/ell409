@@ -1,0 +1,36 @@
+\documentclass[10pt]{article}
+\usepackage[a4paper, margin=2.1cm]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{microtype}
+\usepackage[font=small, labelfont=bf]{caption}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage[section]{placeins}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usepackage[colorlinks=true, linkcolor=blue!50!black, urlcolor=blue!50!black, citecolor=blue!50!black]{hyperref}
+\setlist{itemsep=1pt, topsep=3pt}
+\graphicspath{{../figures/}}
+\newcommand{\repo}{\url{https://github.com/VaibhavSri245/ell409}}
+
+\title{Trees of Small Neural Networks on CIFAR-10 and Cats vs Dogs:\\ Overfitting, Double Descent, Receptive Fields and Compression}
+\author{Vaibhav Srivastava\\ ELL409, IIT Delhi}
+\date{October 2026}
+
+\begin{document}
+\maketitle
+
+\noindent\textbf{Code:} \repo\ (private repository; README lists every command used for the numbers below).
+
+\input{summary.tex}
+\input{methods.tex}
+\input{results_e1_e3_e4.tex}
+\input{results_e2.tex}
+\input{results_e5.tex}
+\input{discussion.tex}
+\input{repro.tex}
+\input{refs.tex}
+
+\end{document}

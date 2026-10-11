@@ -1,0 +1,289 @@
+{
+ "dataset": "catsdogs",
+ "trunk": "cnn",
+ "routers": [
+  {
+   "node": 0,
+   "level": 0,
+   "n_reach": 3000,
+   "left_frac": 0.493,
+   "left_top": [
+    "dog",
+    "cat"
+   ],
+   "right_top": [
+    "cat",
+    "dog"
+   ],
+   "hist_left": [
+    679,
+    800
+   ],
+   "hist_right": [
+    833,
+    688
+   ],
+   "nmi_split_class": 0.005666111133969182,
+   "saliency_radius": 0.686940139647948
+  },
+  {
+   "node": 1,
+   "level": 1,
+   "n_reach": 1479,
+   "left_frac": 0.5300878972278567,
+   "left_top": [
+    "dog",
+    "cat"
+   ],
+   "right_top": [
+    "cat",
+    "dog"
+   ],
+   "hist_left": [
+    320,
+    464
+   ],
+   "hist_right": [
+    359,
+    336
+   ],
+   "nmi_split_class": 0.00854297888977375,
+   "saliency_radius": 0.7003532061435899
+  },
+  {
+   "node": 2,
+   "level": 1,
+   "n_reach": 1521,
+   "left_frac": 0.48454963839579224,
+   "left_top": [
+    "cat",
+    "dog"
+   ],
+   "right_top": [
+    "dog",
+    "cat"
+   ],
+   "hist_left": [
+    566,
+    171
+   ],
+   "hist_right": [
+    267,
+    517
+   ],
+   "nmi_split_class": 0.13827667972280558,
+   "saliency_radius": 0.6789864350196202
+  },
+  {
+   "node": 3,
+   "level": 2,
+   "n_reach": 784,
+   "left_frac": 0.43494897959183676,
+   "left_top": [
+    "cat",
+    "dog"
+   ],
+   "right_top": [
+    "dog",
+    "cat"
+   ],
+   "hist_left": [
+    269,
+    72
+   ],
+   "hist_right": [
+    51,
+    392
+   ],
+   "nmi_split_class": 0.3677178745687641,
+   "saliency_radius": 0.6859841256685394
+  },
+  {
+   "node": 4,
+   "level": 2,
+   "n_reach": 695,
+   "left_frac": 0.4719424460431655,
+   "left_top": [
+    "cat",
+    "dog"
+   ],
+   "right_top": [
+    "dog",
+    "cat"
+   ],
+   "hist_left": [
+    293,
+    35
+   ],
+   "hist_right": [
+    66,
+    301
+   ],
+   "nmi_split_class": 0.40970004977721763,
+   "saliency_radius": 0.6576492617894323
+  },
+  {
+   "node": 5,
+   "level": 2,
+   "n_reach": 737,
+   "left_frac": 0.5345997286295794,
+   "left_top": [
+    "cat",
+    "dog"
+   ],
+   "right_top": [
+    "cat",
+    "dog"
+   ],
+   "hist_left": [
+    253,
+    141
+   ],
+   "hist_right": [
+    313,
+    30
+   ],
+   "nmi_split_class": 0.0892524065138835,
+   "saliency_radius": 0.6742888111506145
+  },
+  {
+   "node": 6,
+   "level": 2,
+   "n_reach": 784,
+   "left_frac": 0.45918367346938777,
+   "left_top": [
+    "dog",
+    "cat"
+   ],
+   "right_top": [
+    "dog",
+    "cat"
+   ],
+   "hist_left": [
+    114,
+    246
+   ],
+   "hist_right": [
+    153,
+    271
+   ],
+   "nmi_split_class": 0.0016251434675439698,
+   "saliency_radius": 0.7170849589516346
+  }
+ ],
+ "leaves": [
+  {
+   "leaf": 0,
+   "n": 341,
+   "top": [
+    "cat",
+    "dog"
+   ],
+   "hist": [
+    269,
+    72
+   ],
+   "acc": 0.9032258064516129,
+   "saliency_radius": 0.6598070950207362
+  },
+  {
+   "leaf": 1,
+   "n": 443,
+   "top": [
+    "dog",
+    "cat"
+   ],
+   "hist": [
+    51,
+    392
+   ],
+   "acc": 0.9413092550790068,
+   "saliency_radius": 0.6976947918904362
+  },
+  {
+   "leaf": 2,
+   "n": 328,
+   "top": [
+    "cat",
+    "dog"
+   ],
+   "hist": [
+    293,
+    35
+   ],
+   "acc": 0.9573170731707317,
+   "saliency_radius": 0.645514974253179
+  },
+  {
+   "leaf": 3,
+   "n": 367,
+   "top": [
+    "dog",
+    "cat"
+   ],
+   "hist": [
+    66,
+    301
+   ],
+   "acc": 0.9046321525885559,
+   "saliency_radius": 0.6655274288709652
+  },
+  {
+   "leaf": 4,
+   "n": 394,
+   "top": [
+    "cat",
+    "dog"
+   ],
+   "hist": [
+    253,
+    141
+   ],
+   "acc": 0.8375634517766497,
+   "saliency_radius": 0.6647910755965885
+  },
+  {
+   "leaf": 5,
+   "n": 343,
+   "top": [
+    "cat",
+    "dog"
+   ],
+   "hist": [
+    313,
+    30
+   ],
+   "acc": 0.9387755102040817,
+   "saliency_radius": 0.6720359277067135
+  },
+  {
+   "leaf": 6,
+   "n": 360,
+   "top": [
+    "dog",
+    "cat"
+   ],
+   "hist": [
+    114,
+    246
+   ],
+   "acc": 0.9027777777777778,
+   "saliency_radius": 0.6631120782281015
+  },
+  {
+   "leaf": 7,
+   "n": 424,
+   "top": [
+    "dog",
+    "cat"
+   ],
+   "hist": [
+    153,
+    271
+   ],
+   "acc": 0.9457547169811321,
+   "saliency_radius": 0.6567090661153336
+  }
+ ],
+ "nmi_leaf_class": 0.14463480297365888
+}

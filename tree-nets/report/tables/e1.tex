@@ -1,0 +1,17 @@
+\begin{tabular}{llrrrrrr}
+\toprule
+dataset & features & params & per image & epochs & train acc & test acc & test acc (hard) \\
+\midrule
+CIFAR-10 & random, shared & 1290k & 231k & 75 & 100.0 & 59.4 & 59.1 \\
+CIFAR-10 & cnn, shared & 411k & 73k & 45 & 100.0 & 85.0 & 84.9 \\
+CIFAR-10 & cnn, matched & 288k & 41k & 125 & 100.0 & 84.8 & 84.7 \\
+CIFAR-10 & resnet, shared & 1210k & 217k & 20 & 100.0 & 82.5 & 82.1 \\
+CIFAR-10 & resnet, matched & 841k & 118k & 30 & 100.0 & 81.1 & 80.7 \\
+\midrule
+Cats vs Dogs & random, shared & 1281k & 230k & 70 & 100.0 & 73.6 & 73.6 \\
+Cats vs Dogs & cnn, shared & 403k & 72k & 75 & 100.0 & 91.7 & 91.6 \\
+Cats vs Dogs & cnn, matched & 280k & 39k & 120 & 100.0 & 91.5 & 91.4 \\
+Cats vs Dogs & resnet, shared & 1202k & 216k & 10 & 100.0 & 90.6 & 90.6 \\
+Cats vs Dogs & resnet, matched & 833k & 117k & 20 & 100.0 & 90.7 & 90.3 \\
+\bottomrule
+\end{tabular}

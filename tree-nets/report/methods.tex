@@ -1,0 +1,59 @@
+\section{Model}
+\label{sec:model}
+
+\subsection{Tree of small networks}
+A tree of depth $D$ has $2^D-1$ internal nodes (\emph{routers}) and $2^D$ leaves. Every node is a small multilayer perceptron (Figure~\ref{fig:arch}).
+\begin{itemize}
+\item Router $j$ maps router features $z_r$ to one number $g_j(z_r)$ through one hidden layer of width $h_r$, and sends the image left with probability $p_j(x)=\sigma\!\left(g_j(z_r)/T\right)$, where $T$ is a temperature.
+\item Leaf $\ell$ maps leaf features $z_\ell$ to $K$ class scores $f_\ell(z_\ell)$ through one hidden layer of width $h$ (width $0$ means a linear map).
+\item The probability that image $x$ reaches leaf $\ell$ is the product of the router decisions on its path,
+\[
+\mu_\ell(x)=\prod_{j\in\mathrm{path}(\ell)} p_j(x)^{[\ell\text{ is left of }j]}\,\bigl(1-p_j(x)\bigr)^{[\ell\text{ is right of }j]},\qquad \sum_\ell \mu_\ell(x)=1 .
+\]
+\end{itemize}
+With \emph{soft routing} the tree predicts $p(y\mid x)=\sum_\ell \mu_\ell(x)\,\mathrm{softmax}(f_\ell)_y$, a hierarchical mixture of experts \cite{jordan1994}. With \emph{hard routing} each router sends the image to its more likely child, so only $D$ routers and one leaf run per image. Hard routing is the $T\to 0$ limit of soft routing; we report both. The routers and leaves are the same kind of object, so any differentiable classifier can sit at a node; here they are MLPs because the assignment asks for small networks.
+
+\begin{figure}[t]
+\centering
+\input{arch.tex}
+\caption{The tree used throughout (depth 2 shown). A frozen trunk turns the image into features once; routers read $z_r$ and leaves read $z_\ell$ (every router and every leaf, not only the ones the dashed arrows touch). In \emph{shared} mode $z_r=z_\ell$; in \emph{matched} mode routers read shallow trunk features and leaves read deep ones.}
+\label{fig:arch}
+\end{figure}
+
+\subsection{Optimisation problem}
+This extends the formulation from the previous assignment. With training set $\{(x_i,y_i)\}_{i=1}^n$, router weights $\theta_R$ and leaf weights $\theta_L$, we solve
+\begin{equation}
+\min_{\theta_R,\theta_L}\;\frac1n\sum_{i=1}^n \mathcal{L}\bigl(y_i;\,\mu(x_i;\theta_R),\,f(x_i;\theta_L)\bigr)\;+\;\beta\,B(\theta_R)\;+\;\lambda\|\theta\|_2^2 ,
+\label{eq:obj}
+\end{equation}
+with two choices of data term:
+\begin{align*}
+\text{mixture:}\quad &\mathcal{L}=-\log\textstyle\sum_\ell \mu_\ell\,\mathrm{softmax}(f_\ell)_{y} &&\text{(likelihood of the mixture; used for E1, E3, E4)}\\
+\text{squared:}\quad &\mathcal{L}=\bigl\|\textstyle\sum_\ell \mu_\ell f_\ell-e_y\bigr\|_2^2 &&\text{(regression on one-hot targets; used for E2, E5)}
+\end{align*}
+The squared-loss version is also the regression tree asked about in the previous assignment: replace $e_y$ by a real target. $B$ is the balance penalty of Frosst and Hinton \cite{frosst2017}: for each router, $\alpha_j$ is the share of the probability mass reaching it that it sends left, and $B=\sum_j 2^{-\mathrm{level}(j)}\cdot\tfrac12\bigl(-\log\alpha_j-\log(1-\alpha_j)\bigr)$ is smallest when every router splits its traffic evenly. We use $\beta=0.01$ in E1, E3 and E4 and $\beta=0$ in E2 and E5. Weight decay $\lambda$ is $0$ everywhere except the control in Section~\ref{sec:dd}. Everything is trained jointly with Adam (learning rate $10^{-3}$).
+
+\subsection{Implementation}
+All routers have the same shape, and so do all leaves, so the $2^D-1$ router MLPs are stored as one stacked tensor of shape $(2^D-1)\times d\times h_r$ and evaluated with a single \texttt{einsum}; the same holds for leaves. A depth-3 tree on 45{,}000 CIFAR-10 feature vectors trains in about 3\,s per epoch on one CPU core. All experiments were run on a 2-core CPU machine with no GPU, which shaped several choices below (cached features, small training subsets for the double-descent sweeps).
+
+\section{Features for the tree}
+\label{sec:features}
+Raw pixels are a poor input for small MLP nodes: a pixel tree (Section~\ref{sec:rf}) reaches only 48\% test accuracy on CIFAR-10. We therefore give the tree features from a \emph{trunk}, computed once and cached. Three trunks were compared:
+\begin{description}
+\item[random:] an untrained 3-layer CNN (64--128--256 channels, He initialisation), average-pooled to $2\times2$: 1024 features. It uses no labels and no training.
+\item[cnn:] a 4-stage CNN (32--64--128--256 channels) trained separately on the training split for 12 epochs with flips and crops. We keep the pooled stage-2 output (64 features, shallow) and stage-4 output (256 features, deep).
+\item[resnet:] ResNet-18 trained on ImageNet \cite{he2016}, used frozen. Images are resized to $64\times64$; we keep the global-average-pooled outputs of all four stages (64+128+256+512 = 960 features). It never sees CIFAR-10 or Cats vs Dogs labels.
+\end{description}
+Each feature is standardised with training-set mean and variance. Two ways of feeding the tree were compared:
+\begin{description}
+\item[shared:] every router and leaf reads the full feature vector.
+\item[matched:] routers read the \emph{shallow} taps (ResNet stages 1--2, 192 features; CNN stage 2, 64 features) and leaves read the \emph{deep} taps (ResNet stages 3--4, 768 features; CNN stage 4, 256 features). The idea is that a router only needs a coarse cue (colour, texture, layout) to pick a branch, while the leaf has to make the fine decision. This also makes routers cheaper.
+\end{description}
+
+\section{Data and protocol}
+\begin{itemize}
+\item \emph{CIFAR-10}: 45{,}000 training / 5{,}000 validation images (both from the official training set, split with seed 0) and the official 10{,}000 test images, $32\times32$.
+\item \emph{Cats vs Dogs}: the Microsoft Asirra set as distributed on Hugging Face (23{,}410 images, label 0 = cat). Images are resized so the short side is 64 and centre-cropped to $64\times64$. Split with seed 0 into 19{,}410 training, 1{,}000 validation and 3{,}000 test images.
+\item \emph{Label noise} (E2, E5): a fraction of training labels is replaced by a different, uniformly chosen class, once, before training. Test labels are always clean.
+\item \emph{Overfitting runs}: no augmentation, no dropout, no weight decay, no early stopping.
+\end{itemize}
